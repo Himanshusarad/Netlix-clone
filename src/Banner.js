@@ -7,14 +7,27 @@ function Banner() {
     const baseUrl = instance.baseURL;
     const [movie, setMovie] = useState([]);
     // console.log(baseUrl);
+
     useEffect(() => {
         async function fetchData() {
             const request = await axios.get(baseUrl + requests.fetchNetflixOriginals);
-            console.log(baseUrl + requests.fetchNetflixOriginals);
-            setMovie(request.data.results[Math.floor(Math.random() * request.data.results.length - 1)]);
+            // console.log(baseUrl + requests.fetchNetflixOriginals);
+            // for (let i = 0; i < 6; i++) {
+            let i = 0;
+            const interval = setInterval(() => {
+
+                setMovie(request.data.results[i]);
+                i++;
+                // console.log(i);
+                if (i == 5) {
+                    i = 0;
+                }
+            }, 7000)
+            // }
             return request;
         }
         fetchData();
+        //     fetchData();
     }, []);
     // console.table(movie);
     function truncate(str, n) {
@@ -36,7 +49,7 @@ function Banner() {
                     <button className="banner_button">Play</button>
                     <button className="banner_button">My List</button>
                 </div>
-                <h1 className="banner_desc">{truncate(movie?.overview,150)}</h1>
+                <h1 className="banner_desc">{truncate(movie?.overview, 150)}</h1>
 
             </div>
             <div className="banner_fadebutton"></div>

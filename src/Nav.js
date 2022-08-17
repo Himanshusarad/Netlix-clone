@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Nav.css';
-
+// import handleSearchClick from './Tabs/Tabs'
 
 function Nav() {
     const [show, handleShow] = useState(false);
@@ -25,6 +25,7 @@ function Nav() {
                 className='nav_avatar'
                 src='https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png'
                 alt='Netflix Avatar' />
+            
         </div>
     )
 }

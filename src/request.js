@@ -11,6 +11,6 @@ const requests = {
   fetchRomanceMovies: `/discover/movie?api_key=${API_KEY}&with_genres=10749`,
   fetchDocumantaries: `/discover/movie?api_key=${API_KEY}&with_genres=99`
 }
-// console.log(fetchURL);
+// console.log(Object.values(requests)[1]);
 
 export default requests;

@@ -1,0 +1,32 @@
+.tabs_div{
+    background-color: #111;
+    height: 100vh;
+}
+
+.searchtab_search{
+    width: 40rem;
+    position: fixed;
+    right: 20rem;
+}
+
+.search_btn{
+    position: fixed;
+    right: 60px;
+    /* float: right; */
+    border: none;
+    background-color: rgb(40, 40, 40);
+    color: white;
+    height: 23px;
+    padding-left:1rem;
+    width: 6rem;
+    margin: 0.2rem 1rem 0 1rem;
+    border-radius: 0.3rem;
+    opacity: 0.9;
+    z-index: 999;
+    top: 1rem;
+    
+}
+
+.searchbtn_display{
+    display: none;
+}
