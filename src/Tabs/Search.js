@@ -14,6 +14,7 @@ function Search() {
     const [filteredmovies, setFilteredMovies] = useState([]);
     const [filteredmoviesname1, setFilteredMoviesName1] = useState([]);
     // const [filteredmoviesname2, setFilteredMoviesName2] = useState([]);
+    const [categoryFound, setCategoryFound] = useState(false);
     const [movieFound, setMovieFound] = useState(false);
     const [movieName, setMovieName] = useState();
     // let urlfilter = "";
@@ -28,49 +29,53 @@ function Search() {
             Object.entries(requests).forEach(entry => {
                 const [key, value] = entry;
                 const keyname = key.toLocaleLowerCase();
-                console.log(keyname.includes(query) + keyname + query);
+                // console.log(keyname.includes(query) + keyname + query);
                 if (keyname.includes(query)) {  //to compare the search box value to all api names
-                    setMovieFound(true);
-                    setSearchFilter(insta+value);
+                    setCategoryFound(true);
+                    setSearchFilter(insta + value);
+                    console.log(searchfilter + " " + categoryFound);
                 }
-                
+
             })
             // if(searchfilter==""){
             //     setMovieFound(false);
             // }
-            // for(let i =0;i<filteredmoviesname1.length;i++){
-            //     let Moviename= filteredmoviesname1[i].original_title.toLocaleLowerCase();
+            if (!categoryFound) {
+
+                for (let i = 0; i < filteredmoviesname1.length; i++) {
+                    let Moviename = filteredmoviesname1[i].original_title.toLocaleLowerCase();
+                    // console.log(Moviename + Moviename.includes(query));
+                    setMovieFound(Moviename.includes(query));
+                    if (Moviename.includes(query)) {
+                        setMovieFound(true);
+                        console.log(movieFound);
+                        setMovieName(filteredmoviesname1[i].original_title);
+                        console.log(movieName);
+                        break;
+                    }
+                }
+            }
+            // if(!movieFound){
+
+            // for(let i =0;i<filteredmoviesname2.length;i++){
+            //     let Moviename= filteredmoviesname2[i].original_title.toLocaleLowerCase();
             //     console.log(Moviename + Moviename.includes(query));
-            //     setMovieFound(Moviename.includes(query));
             //     if(Moviename.includes(query)){
             //         setMovieFound(true);
-            //         // console.log(movieFound);
-            //         setMovieName(filteredmoviesname1[i].original_title);
-            //         // console.log(movieName);
+            //         setMovieName(filteredmoviesname2[i].original_title);
             //         break;
             //     }
             // }
-            // if(!movieFound){
-
-                // for(let i =0;i<filteredmoviesname2.length;i++){
-                //     let Moviename= filteredmoviesname2[i].original_title.toLocaleLowerCase();
-                //     console.log(Moviename + Moviename.includes(query));
-                //     if(Moviename.includes(query)){
-                //         setMovieFound(true);
-                //         setMovieName(filteredmoviesname2[i].original_title);
-                //         break;
-                //     }
-                // }
             // }
-                // console.log(movieName);
+            console.log(movieName);
 
 
-            if (!movieFound) {
+            if (!movieFound && !categoryFound) {
                 console.log("hello its not found");
                 // setMovieFound(false);
             }
         }
-        
+
     }
     // console.log(searchfilter);
 
@@ -100,30 +105,30 @@ function Search() {
             console.log(filteredmovies);
             return request;
         }
-       
+
         fetchData();
-}, [searchfilter] );
+    }, [searchfilter]);
     // console.table(filteredmovies);
 
     // this is to get the movies from the name . call-3
-    // useEffect(() => {
-    //     async function fetchMovies() {
-    //         // console.log(Object.values(requests)[4]);
-    //         const request1 = await axios.get(insta+Object.values(requests)[3]);
-    //         // console.log(request1.data);
-    //         setFilteredMoviesName1(request1.data.results);
-    //         console.log(filteredmoviesname1);
-    //         return request1;
+    useEffect(() => {
+        async function fetchMovies() {
+            // console.log(Object.values(requests)[4]);
+            const request1 = await axios.get(insta + Object.values(requests)[3]);
+            // console.log(request1.data);
+            setFilteredMoviesName1(request1.data.results);
+            console.log(filteredmoviesname1);
+            return request1;
 
-    //     }
-    //     fetchMovies();
-    // },[movieFound])
+        }
+        fetchMovies();
+    }, [movieFound])
     // console.log(movieFound);
 
     // useEffect(() => {
     //     async function fetchMovies() {
     //         // console.log(Object.values(requests)[4]);
-            
+
     //         const request2 = await axios.get(insta+Object.values(requests)[4]);
     //         setFilteredMoviesName2(request2.data.results);
     //         console.log(filteredmoviesname1);
@@ -145,10 +150,11 @@ function Search() {
             <div className='filter_posts'>
                 {filteredmovies && filteredmovies.map(movie => (
                     <div className='filter_content'>
-                        {movieFound && <img className="filter_poster" src={`${photoURL}${movie.backdrop_path}`} alt={movie.name} key={movie.id} />}
-                        {movieFound && <span className='filtermovie_title'>{movie.original_title}</span>}
+                        {categoryFound && <img className="filter_poster" src={`${photoURL}${movie.backdrop_path}`} alt={movie.name} key={movie.id} />}
+                        {categoryFound && <span className='filtermovie_title'>{movie.original_title}</span>}
                     </div>
                 ))}
+                {movieName && <div>{movieName}</div>}
             </div>
         </div>
     )
